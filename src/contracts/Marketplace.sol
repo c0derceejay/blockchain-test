@@ -1,4 +1,4 @@
-pragma solidity >=0.4.21 < 0.8.9;
+pragma solidity >=0.4.21 < 0.8.10;
 
 contract Marketplace {
     string public name;
@@ -54,20 +54,36 @@ contract Marketplace {
     function purchaseProduct(uint _id) public payable {
         //Fetch product
         Product memory _product = products[_id];
+
         //Fetch the owner
         address payable _seller = _product.owner;
-        //Ensure product is valid
+
+        //Ensure product is valid with valid ID
+        require(_product.id > 0 && _product.id <= productCount); //ensuring product is available
+
+        //Ensure there is enough Ether in the transaction to purchase the product
+        require(msg.value >= _product.price); 
+
+        //Require product to be available (not purchased yet)
+        require(!_product.purchased); //using not operator to void purchased products
+
+        //Require that the buyer not be the seller
+        require(_seller != msg.sender);
 
         //Initiate Purchase/Transfer ownership
         _product.owner = msg.sender;
+
         //Mark as purchased
         _product.purchased = true;
+
         //Update the product
         products[_id] = _product;
+
         //Pay the seller by sending them Ether
         address(_seller).transfer(msg.value);
+
         //Trigger an event
-        emit ProductPurchased(productCount, _product.name, _product.price, msg.sender, false);
+        emit ProductPurchased(productCount, _product.name, _product.price, msg.sender, true);
     }
 }
 
