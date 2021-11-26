@@ -3,10 +3,8 @@
 1. https://www.dappuniversity.com/articles/how-to-build-a-blockchain-app
 2. https://www.dappuniversity.com/
 
-- Creating a Smart Contract
-- Testing with JavaScript
-- Creating a Front-End Website to display products
-- Linking your web wallet (test network)
-- Purchasing Products
-- Selling Products
+What are we creating?
+- We’ll write tests for the smart contracts in JavaScript
+- We’ll deploy to the smart contracts to a blockchain
+- We’ll create a client side website with Web3.js and React.js so that users can talk to the smart contracts
 
